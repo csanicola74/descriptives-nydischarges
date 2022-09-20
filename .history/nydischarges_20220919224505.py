@@ -126,24 +126,8 @@ rp.summary_cat(sparcs[['age_group', 'gender', 'race',
 ##  Visualizing Data ##
 #######################
 
-# using a histogram to see the frequency counts of procedure codes
-hist, bin_edges = np.histogram(sparcs['ccs_procedure_code'], bins=10)
+# Now that you have the data to work with, you can apply .boxplot() to get the box plot:
+hist, bin_edges = np.histogram(x, bins=10)
 hist
+
 bin_edges
-
-fig, ax = plt.subplots()
-ax.hist(sparcs['ccs_procedure_code'], bin_edges, cumulative=False)
-ax.set_xlabel('Procedure_Code')
-ax.set_ylabel('Frequency')
-plt.show()
-
-# using a histogram to see the frequency counts of the severity of illness
-hist, bin_edges = np.histogram(sparcs['apr_severity_of_illness_code'], bins=10)
-hist
-bin_edges
-
-fig, ax = plt.subplots()
-ax.hist(sparcs['apr_severity_of_illness_code'], bin_edges, cumulative=False)
-ax.set_xlabel('Severity_of_Illness')
-ax.set_ylabel('Frequency')
-plt.show()

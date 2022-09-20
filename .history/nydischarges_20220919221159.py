@@ -12,8 +12,6 @@ import urllib.request
 import os
 import seaborn
 from tableone import TableOne, load_dataset
-import researchpy as rp
-import patsy
 
 ###############################
 ##  Reading from a CSV file  ##
@@ -89,61 +87,33 @@ print(stay_illness.summary())
 scipy.stats.linregress(sparcs['length_of_stay'],
                        sparcs['apr_severity_of_illness_code'])
 
-################
-##  TableOne  ##
-################
+###############
+##  TableOne ##
+###############
 
 ### DATASET 1 ###
 sparcs_df1 = sparcs.copy()
 sparcs_df1.dtypes
 list(sparcs_df1)
 
-sparcs_df1_columns = ['age_group', 'gender', 'race', 'ethnicity', 'length_of_stay',
-                      'ccs_diagnosis_code', 'ccs_procedure_code', 'apr_severity_of_illness_code']
-sparcs_df1_categories = ['age_group', 'gender', 'race',
-                         'ethnicity', 'apr_severity_of_illness_code']
-sparcs_df1_groupby = ['age_group']
+sparcs_df1_columns = ['age_group',
+                      'gender',
+                      'race',
+                      'ethnicity',
+                      'length_of_stay',
+                      'ccs_diagnosis_code',
+                      'ccs_procedure_code',
+                      'apr_severity_of_illness_code']
 
-sparcs_df1_table1 = TableOne(sparcs_df1, columns=sparcs_df1_columns,
-                             categorical=sparcs_df1_categories, groupby=sparcs_df1_groupby, pval=False)
-print(sparcs_df1_table1.tabulate(tablefmt="fancy_grid"))
-sparcs_df1_table1.to_csv('data/dataset2.csv')
-
-
-###################
-##  ResearchOne  ##
-###################
-
-# examples of getting descriptives for the entire dataset
-rp.codebook(sparcs)
-
-rp.summary_cont(
-    sparcs[['length_of_stay', 'ccs_diagnosis_code', 'total_charges']])
-rp.summary_cat(sparcs[['age_group', 'gender', 'race',
-                       'ethnicity', 'apr_severity_of_illness_code']])
 
 #######################
 ##  Visualizing Data ##
 #######################
 
-# using a histogram to see the frequency counts of procedure codes
-hist, bin_edges = np.histogram(sparcs['ccs_procedure_code'], bins=10)
-hist
-bin_edges
-
+# Now that you have the data to work with, you can apply .boxplot() to get the box plot:
 fig, ax = plt.subplots()
-ax.hist(sparcs['ccs_procedure_code'], bin_edges, cumulative=False)
-ax.set_xlabel('Procedure_Code')
-ax.set_ylabel('Frequency')
-plt.show()
-
-# using a histogram to see the frequency counts of the severity of illness
-hist, bin_edges = np.histogram(sparcs['apr_severity_of_illness_code'], bins=10)
-hist
-bin_edges
-
-fig, ax = plt.subplots()
-ax.hist(sparcs['apr_severity_of_illness_code'], bin_edges, cumulative=False)
-ax.set_xlabel('Severity_of_Illness')
-ax.set_ylabel('Frequency')
+ax.boxplot((x, y, z), vert=False, showmeans=True, meanline=True,
+           labels=('x', 'y', 'z'), patch_artist=True,
+           medianprops={'linewidth': 2, 'color': 'purple'},
+           meanprops={'linewidth': 2, 'color': 'red'})
 plt.show()
